@@ -60,6 +60,19 @@
         (vec)->data[(vec)->size++] = (item); \
     } while(0)
 
+#define vector_appendn(vec, items, count) \
+    do { \
+        if ((vec)->size + (count) >= (vec)->capacity) { \
+            (vec)->capacity = ((vec)->capacity == 0) ? VECTOR_INITIAL_CAPACITY : ((vec)->capacity << 1); \
+            while ((vec)->size + (count) >= (vec)->capacity) \
+                (vec)->capacity = ((vec)->capacity << 1); \
+            (vec)->data = realloc((vec)->data, (vec)->capacity * sizeof(*(vec)->data)); \
+            assert((vec)->data != NULL); \
+        } \
+        memcpy((vec)->data + (vec)->size, (items), (count) * sizeof(*(vec)->data)); \
+        (vec)->size += (count); \
+    } while(0)
+
 #define vector_clear(vec) \
     do { \
         (vec)->size = 0; \
