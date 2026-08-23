@@ -30,6 +30,12 @@ int main(void)
     printf("\n" COLOR_YELLOW "---> Running Vec Remove Tests..." COLOR_RESET "\n");
     run_vec_remove_tests();
 
+    printf("\n" COLOR_YELLOW "---> Running CStr Free Tests..." COLOR_RESET "\n");
+    run_cstr_free_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr AppendN Tests..." COLOR_RESET "\n");
+    run_cstr_appendn_tests();
+
     printf("\n" COLOR_CYAN "All test suites executed successfully." COLOR_RESET "\n");
     
     TEST_END();

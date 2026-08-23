@@ -5,11 +5,12 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 add_compile_options(-Wall -Wextra)
 
-add_library(vec_core STATIC
+add_library(dst_core STATIC
     src/vec.c
+    src/cstr.c
 )
 
-target_include_directories(vec_core PUBLIC
+target_include_directories(dst_core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
 )
 
@@ -27,11 +28,15 @@ add_executable(run_tests
     test/vector/test_vec_clear.c
     test/vector/test_vec_at.c
     test/vector/test_vec_remove.c
+    
+    test/cstring/test_cstr_free.c
+    test/cstring/test_cstr_appendn.c
+
     test/test_main.c
 )
 
 target_link_libraries(run_tests PRIVATE
-    vec_core
+    dst_core
     test_framework
 )
 
