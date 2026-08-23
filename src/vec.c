@@ -55,10 +55,10 @@ int vec_clear(struct Vec *self) {
 
 int vec_free(struct Vec *self) {
     if(self == NULL) { return VEC_ERR_NULL; }
-    if(self->data == NULL) { return VEC_ERR_NULL; }
-
-    free(self->data);
-    self->data = NULL;
+    if(self->data != NULL) {
+        free(self->data);
+        self->data = NULL;
+    }
     self->size = 0;
     self->cap = 0;
     return VEC_SUCCESS;
