@@ -3,20 +3,6 @@
 
 #define CSTR_INITIAL_CAPACITY 4
 
-enum {
-    CSTR_SUCCESS = 0,
-    CSTR_ERR_ALLOC = 1,
-    CSTR_ERR_NULL = 2,
-    CSTR_ERR_OUT_OF_BOUNDS = 3
-};
-
-void cstr_init(cstr *self) {
-    if(self == NULL) return;
-    self->data = NULL;
-    self->len = 0;
-    self->cap = 0;
-}
-
 int cstr_appendn(cstr *self, const char *str, size_t n) {
     if(self == NULL || str == NULL) return CSTR_ERR_NULL;
     if(n == 0) return CSTR_SUCCESS;
@@ -41,7 +27,7 @@ int cstr_appendn(cstr *self, const char *str, size_t n) {
 }
 
 int cstr_pop(cstr *self) {
-    if(self == NULL) { return CSTR_ERR_NULL; }
+    if(self == NULL || self->data == NULL) { return CSTR_ERR_NULL; }
     if(self->len == 0) { return CSTR_ERR_OUT_OF_BOUNDS; }
 
     self->len--;
@@ -132,8 +118,10 @@ int cstr_clear(cstr *self) {
 
 int cstr_free(cstr *self) {
     if(self == NULL) { return CSTR_ERR_NULL; }
-    free(self->data);
-    self->data = NULL;
+    if(self->data != NULL) {
+        free(self->data);
+        self->data = NULL;
+    }
     self->len = 0;
     self->cap = 0;
     return CSTR_SUCCESS;

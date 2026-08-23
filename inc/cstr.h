@@ -1,6 +1,15 @@
+#pragma once
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+enum {
+    CSTR_SUCCESS = 0,
+    CSTR_ERR_ALLOC = 1,
+    CSTR_ERR_NULL = 2,
+    CSTR_ERR_OUT_OF_BOUNDS = 3
+};
 
 typedef struct {
     char *data;
