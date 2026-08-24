@@ -8,12 +8,12 @@ void test_vec_free_null() {
 }
 
 void test_vec_free_null_data() {
-    static struct Vec vec_with_null_data = { .data = NULL, .esize = sizeof(int), .size = 0, .cap = 4 };
+    static Vec vec_with_null_data = { .data = NULL, .esize = sizeof(int), .size = 0, .cap = 4 };
     int ret = vec_free(&vec_with_null_data);
     ASSERT_EQ(VEC_SUCCESS, ret);
 }
 void test_vec_free_valid() {
-    struct Vec vec;
+    Vec vec;
     int ret = vec_init(&vec, 0, sizeof(int));
     ASSERT_EQ(VEC_SUCCESS, ret);
 

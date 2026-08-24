@@ -2,7 +2,7 @@
 #include "framework/framework.h"
 #include "../../inc/vec.h"
 
-static struct Vec vec;
+static Vec vec;
 
 static void setup() {
     int ret = vec_init(&vec, 0, sizeof(int));
@@ -46,7 +46,7 @@ static void test_vec_push_struct() {
 
     struct Point p = { .x = 10, .y = 20 };
 
-    struct Vec vec_struct;
+    Vec vec_struct;
     int ret = vec_init(&vec_struct, 0, sizeof(struct Point));
     ASSERT_EQ(VEC_SUCCESS, ret);
 

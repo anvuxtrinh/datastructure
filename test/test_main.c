@@ -7,6 +7,15 @@ extern void run_vec_push_tests(void);
 extern void run_vec_clear_tests(void);
 extern void run_vec_at_tests(void);
 extern void run_vec_remove_tests(void);
+extern void run_cstr_free_tests(void);
+extern void run_cstr_appendn_tests(void);
+extern void run_cstr_at_tests(void);
+extern void run_cstr_clear_tests(void);
+extern void run_cstr_copy_tests(void);
+extern void run_cstr_pop_tests(void);
+extern void run_cstr_remove_tests(void);
+extern void run_cstr_reverse_tests(void);
+extern void run_cstr_substr_tests(void);
 
 int main(void)
 {
@@ -35,6 +44,27 @@ int main(void)
 
     printf("\n" COLOR_YELLOW "---> Running CStr AppendN Tests..." COLOR_RESET "\n");
     run_cstr_appendn_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr At Tests..." COLOR_RESET "\n");
+    run_cstr_at_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr Clear Tests..." COLOR_RESET "\n");
+    run_cstr_clear_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr Copy Tests..." COLOR_RESET "\n");
+    run_cstr_copy_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr Pop Tests..." COLOR_RESET "\n");
+    run_cstr_pop_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr Remove Tests..." COLOR_RESET "\n");
+    run_cstr_remove_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr Reverse Tests..." COLOR_RESET "\n");
+    run_cstr_reverse_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr Substr Tests..." COLOR_RESET "\n");
+    run_cstr_substr_tests();
 
     printf("\n" COLOR_CYAN "All test suites executed successfully." COLOR_RESET "\n");
     

@@ -2,7 +2,7 @@
 #include "framework/framework.h"
 #include "../../inc/vec.h"
 
-static struct Vec vec;
+static Vec vec;
 
 static void teardown() {
     vec_free(&vec);

@@ -31,6 +31,13 @@ add_executable(run_tests
     
     test/cstring/test_cstr_free.c
     test/cstring/test_cstr_appendn.c
+    test/cstring/test_cstr_at.c
+    test/cstring/test_cstr_clear.c
+    test/cstring/test_cstr_copy.c
+    test/cstring/test_cstr_pop.c
+    test/cstring/test_cstr_remove.c
+    test/cstring/test_cstr_reverse.c
+    test/cstring/test_cstr_substr.c
 
     test/test_main.c
 )

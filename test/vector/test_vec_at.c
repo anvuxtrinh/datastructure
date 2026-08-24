@@ -2,7 +2,7 @@
 #include "framework/framework.h"
 #include "../../inc/vec.h"
 
-static struct Vec vec;
+static Vec vec;
 
 void setup() {
     int ret = vec_init(&vec, 0, sizeof(int));

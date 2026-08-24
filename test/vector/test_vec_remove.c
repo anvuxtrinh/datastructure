@@ -2,14 +2,14 @@
 #include "framework/framework.h"
 #include "../../inc/vec.h"
 
-static struct Vec vec;
+static Vec vec;
 
-void static setup() {
+static void setup() {
     int ret = vec_init(&vec, 0, sizeof(int));
     ASSERT_EQ(VEC_SUCCESS, ret);
 }
 
-void static teardown() {
+static void teardown() {
     vec_free(&vec);
 }
 
@@ -24,7 +24,7 @@ void test_remove_out_of_bounds() {
 }
 
 void test_remove_first() {
-    struct Vec vec;
+    Vec vec;
     int ret = vec_init(&vec, 0, sizeof(int));
     ASSERT_EQ(VEC_SUCCESS, ret);
 
@@ -45,7 +45,7 @@ void test_remove_first() {
 }
 
 void test_remove_last() {
-    struct Vec vec;
+    Vec vec;
     int ret = vec_init(&vec, 0, sizeof(int));
     ASSERT_EQ(VEC_SUCCESS, ret);
 
@@ -66,7 +66,7 @@ void test_remove_last() {
 }
 
 void test_remove_middle() {
-    struct Vec vec;
+    Vec vec;
     int ret = vec_init(&vec, 0, sizeof(int));
     ASSERT_EQ(VEC_SUCCESS, ret);
 
