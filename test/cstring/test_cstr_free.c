@@ -8,13 +8,13 @@ void test_cstr_free_null() {
 }
 
 void test_cstr_free_null_data() {
-    static cstr str_with_null_data = { .data = NULL, .len = 0, .cap = 4 };
+    static Cstr str_with_null_data = { .data = NULL, .len = 0, .cap = 4 };
     int ret = cstr_free(&str_with_null_data);
     ASSERT_EQ(CSTR_SUCCESS, ret);
 }
 
 void test_cstr_free_valid() {
-    cstr str = {0};
+    Cstr str = {0};
     int ret = cstr_appendn(&str, "Hello", 5);
     ASSERT_EQ(CSTR_SUCCESS, ret);
 

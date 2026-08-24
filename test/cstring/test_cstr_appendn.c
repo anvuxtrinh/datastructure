@@ -3,7 +3,7 @@
 #include "framework/framework.h"
 #include "../../inc/cstr.h"
 
-static cstr str;
+static Cstr str;
 
 static void setup() {
 }

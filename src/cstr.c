@@ -3,7 +3,7 @@
 
 #define CSTR_INITIAL_CAPACITY 4
 
-int cstr_appendn(cstr *self, const char *str, size_t n) {
+int cstr_appendn(Cstr *self, const char *str, size_t n) {
     if(self == NULL || str == NULL) return CSTR_ERR_NULL;
     if(n == 0) return CSTR_SUCCESS;
     if(n > SIZE_MAX - self->len - 1) return CSTR_ERR_OUT_OF_BOUNDS;
@@ -26,7 +26,7 @@ int cstr_appendn(cstr *self, const char *str, size_t n) {
     return CSTR_SUCCESS;
 }
 
-int cstr_pop(cstr *self) {
+int cstr_pop(Cstr *self) {
     if(self == NULL || self->data == NULL) { return CSTR_ERR_NULL; }
     if(self->len == 0) { return CSTR_ERR_OUT_OF_BOUNDS; }
 
@@ -35,7 +35,7 @@ int cstr_pop(cstr *self) {
     return CSTR_SUCCESS;
 }
 
-int cstr_copy(cstr *self, const char *str, size_t n) {
+int cstr_copy(Cstr *self, const char *str, size_t n) {
     if(self == NULL || str == NULL) { return CSTR_ERR_NULL; }
     if(n == 0) {
         if(self->data) {
@@ -65,13 +65,13 @@ int cstr_copy(cstr *self, const char *str, size_t n) {
     return CSTR_SUCCESS;
 }
 
-char cstr_at(cstr *self, size_t index) {
+char cstr_at(Cstr *self, size_t index) {
     if(self == NULL || index >= self->len) { return '\0'; }
 
     return self->data[index];
 }
 
-int cstr_substr(cstr *self, size_t start, size_t end, cstr *out) {
+int cstr_substr(Cstr *self, size_t start, size_t end, Cstr *out) {
     if(self == NULL || self->data == NULL || out == NULL) { 
         return CSTR_ERR_NULL; 
     }
@@ -87,7 +87,7 @@ int cstr_substr(cstr *self, size_t start, size_t end, cstr *out) {
     return CSTR_SUCCESS;
 }
 
-int cstr_reverse(cstr *self) {
+int cstr_reverse(Cstr *self) {
     if(self == NULL || self->data == NULL) { return CSTR_ERR_NULL; }
 
     for(size_t i = 0; i < self->len / 2; i++) {
@@ -99,7 +99,7 @@ int cstr_reverse(cstr *self) {
     return CSTR_SUCCESS;
 }
 
-int cstr_remove(cstr *self, size_t start, size_t len) {
+int cstr_remove(Cstr *self, size_t start, size_t len) {
     if(self == NULL || self->data == NULL) { return CSTR_ERR_NULL; }
     if(start >= self->len || start + len > self->len) { return CSTR_ERR_OUT_OF_BOUNDS; }
 
@@ -109,14 +109,14 @@ int cstr_remove(cstr *self, size_t start, size_t len) {
     return CSTR_SUCCESS;
 }
 
-int cstr_clear(cstr *self) {
+int cstr_clear(Cstr *self) {
     if(self == NULL || self->data == NULL) { return CSTR_ERR_NULL; }
     self->len = 0;
     self->data[0] = '\0';
     return CSTR_SUCCESS;
 }
 
-int cstr_free(cstr *self) {
+int cstr_free(Cstr *self) {
     if(self == NULL) { return CSTR_ERR_NULL; }
     if(self->data != NULL) {
         free(self->data);
