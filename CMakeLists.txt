@@ -8,6 +8,7 @@ add_compile_options(-Wall -Wextra)
 add_library(dst_core STATIC
     src/vec.c
     src/cstr.c
+    src/hashmap.c
 )
 
 target_include_directories(dst_core PUBLIC
@@ -28,6 +29,12 @@ add_executable(run_tests
     test/vector/test_vec_clear.c
     test/vector/test_vec_at.c
     test/vector/test_vec_remove.c
+
+    test/hashmap/test_hashmap_put.c
+    test/hashmap/test_hashmap_get.c
+    test/hashmap/test_hashmap_rehash.c
+    test/hashmap/test_hashmap_free.c
+    test/hashmap/test_hashmap_hash.c
     
     test/cstring/test_cstr_free.c
     test/cstring/test_cstr_appendn.c

@@ -7,6 +7,11 @@ extern void run_vec_push_tests(void);
 extern void run_vec_clear_tests(void);
 extern void run_vec_at_tests(void);
 extern void run_vec_remove_tests(void);
+extern void run_hashmap_put_tests(void);
+extern void run_hashmap_get_tests(void);
+extern void run_hashmap_rehash_tests(void);
+extern void run_hashmap_free_tests(void);
+extern void run_hashmap_hash_tests(void);
 extern void run_cstr_free_tests(void);
 extern void run_cstr_appendn_tests(void);
 extern void run_cstr_at_tests(void);
@@ -38,6 +43,21 @@ int main(void)
 
     printf("\n" COLOR_YELLOW "---> Running Vec Remove Tests..." COLOR_RESET "\n");
     run_vec_remove_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Hashmap Put Tests..." COLOR_RESET "\n");
+    run_hashmap_put_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Hashmap Get Tests..." COLOR_RESET "\n");
+    run_hashmap_get_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Hashmap Rehash Tests..." COLOR_RESET "\n");
+    run_hashmap_rehash_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Hashmap Free Tests..." COLOR_RESET "\n");
+    run_hashmap_free_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Hashmap Hash Tests..." COLOR_RESET "\n");
+    run_hashmap_hash_tests();
 
     printf("\n" COLOR_YELLOW "---> Running CStr Free Tests..." COLOR_RESET "\n");
     run_cstr_free_tests();
