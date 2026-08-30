@@ -45,90 +45,90 @@ extern void (*g_tearDown)(void);
     if(g_tearDown) g_tearDown(); \
 } while(0)
 
-#define ASSERT(expr) do { \
+#define ASSERT(expr, errmsg) do { \
     if(!(expr)) { \
-        printf("Assertion failed: %s, function %s, file %s, line %d.\n", \
-               #expr, __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: %s, function %s, file %s, line %d. Message: %s\n", \
+               #expr, __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_EQ(expected, actual) do { \
+#define ASSERT_EQ(expected, actual, errmsg) do { \
     if((expected) != (actual)) { \
-        printf("Assertion failed: expected %d, got %d, function %s, file %s, line %d.\n", \
-               (expected), (actual), __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: expected %d, got %d, function %s, file %s, line %d. Message: %s\n", \
+               (expected), (actual), __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_PTR_EQ(expected, actual) do { \
+#define ASSERT_PTR_EQ(expected, actual, errmsg) do { \
     if((expected) != (actual)) { \
-        printf("Assertion failed: expected pointer %p, got %p, function %s, file %s, line %d.\n", \
-               (void *)(expected), (void *)(actual), __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: expected pointer %p, got %p, function %s, file %s, line %d. Message: %s\n", \
+               (void *)(expected), (void *)(actual), __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_NOT_NULL(ptr) do { \
+#define ASSERT_NOT_NULL(ptr, errmsg) do { \
     if((ptr) == NULL) { \
-        printf("Assertion failed: pointer is NULL, function %s, file %s, line %d.\n", \
-               __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: pointer is NULL, function %s, file %s, line %d. Message: %s\n", \
+               __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_NULL(ptr) do { \
+#define ASSERT_NULL(ptr, errmsg) do { \
     if((ptr) != NULL) { \
-        printf("Assertion failed: pointer is not NULL, function %s, file %s, line %d.\n", \
-               __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: pointer is not NULL, function %s, file %s, line %d. Message: %s\n", \
+               __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_TRUE(expr) do { \
+#define ASSERT_TRUE(expr, errmsg) do { \
     if(!(expr)) { \
-        printf("Assertion failed: expected true, got false, function %s, file %s, line %d.\n", \
-               __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: expected true, got false, function %s, file %s, line %d. Message: %s\n", \
+               __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_FALSE(expr) do { \
+#define ASSERT_FALSE(expr, errmsg) do { \
     if((expr)) { \
-        printf("Assertion failed: expected false, got true, function %s, file %s, line %d.\n", \
-               __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: expected false, got true, function %s, file %s, line %d. Message: %s\n", \
+               __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_STR_EQ(expected, actual) do { \
+#define ASSERT_STR_EQ(expected, actual, errmsg) do { \
     if(strcmp((expected), (actual)) != 0) { \
-        printf("Assertion failed: expected string \"%s\", got \"%s\", function %s, file %s, line %d.\n", \
-               (expected), (actual), __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: expected string \"%s\", got \"%s\", function %s, file %s, line %d. Message: %s\n", \
+               (expected), (actual), __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_STR_NOT_NULL(str) do { \
+#define ASSERT_STR_NOT_NULL(str, errmsg) do { \
     if((str) == NULL) { \
-        printf("Assertion failed: string is NULL, function %s, file %s, line %d.\n", \
-               __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: string is NULL, function %s, file %s, line %d. Message: %s\n", \
+               __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_STR_NULL(str) do { \
+#define ASSERT_STR_NULL(str, errmsg) do { \
     if((str) != NULL) { \
-        printf("Assertion failed: string is not NULL, function %s, file %s, line %d.\n", \
-               __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: string is not NULL, function %s, file %s, line %d. Message: %s\n", \
+               __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)
 
-#define ASSERT_STRUCT_EQ(expected, actual, struct_type) do { \
+#define ASSERT_STRUCT_EQ(expected, actual, struct_type, errmsg) do { \
     if(memcmp(&(expected), &(actual), sizeof(struct_type)) != 0) { \
-        printf("Assertion failed: expected struct does not match actual struct, function %s, file %s, line %d.\n", \
-               __func__, __FILE__, __LINE__); \
+        printf("Assertion failed: expected struct does not match actual struct, function %s, file %s, line %d. Message: %s\n", \
+               __func__, __FILE__, __LINE__, errmsg); \
         longjmp(g_test_env, 1); \
     } \
 } while(0)

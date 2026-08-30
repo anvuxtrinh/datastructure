@@ -6,7 +6,7 @@ static Vec vec;
 
 static void setup() {
     int ret = vec_init(&vec, 0, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
 }
 
 static void teardown() {
@@ -15,18 +15,18 @@ static void teardown() {
 
 void test_remove_null() {
     int ret = vec_remove(NULL, 0);
-    ASSERT_EQ(VEC_ERR_NULL, ret);
+    ASSERT_EQ(VEC_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_remove_out_of_bounds() {
     int ret = vec_remove(&vec, 0);
-    ASSERT_EQ(VEC_ERR_OUT_OF_BOUNDS, ret);
+    ASSERT_EQ(VEC_ERR_OUT_OF_BOUNDS, ret, "Expected condition to hold");
 }
 
 void test_remove_first() {
     Vec vec;
     int ret = vec_init(&vec, 0, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
 
     int value1 = 42;
     int value2 = 84;
@@ -34,12 +34,12 @@ void test_remove_first() {
     vec_push(&vec, &value2);
 
     ret = vec_remove(&vec, 0);
-    ASSERT_EQ(VEC_SUCCESS, ret);
-    ASSERT_EQ(1, vec.size);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    ASSERT_EQ(1, vec.size, "Expected condition to hold");
 
     int *item = (int *)vec_at(&vec, 0);
-    ASSERT_NOT_NULL(item);
-    ASSERT_EQ(value2, *item);
+    ASSERT_NOT_NULL(item, "Expected pointer to be non-NULL");
+    ASSERT_EQ(value2, *item, "Expected condition to hold");
 
     vec_free(&vec);
 }
@@ -47,7 +47,7 @@ void test_remove_first() {
 void test_remove_last() {
     Vec vec;
     int ret = vec_init(&vec, 0, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
 
     int value1 = 42;
     int value2 = 84;
@@ -55,12 +55,12 @@ void test_remove_last() {
     vec_push(&vec, &value2);
 
     ret = vec_remove(&vec, 1);
-    ASSERT_EQ(VEC_SUCCESS, ret);
-    ASSERT_EQ(1, vec.size);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    ASSERT_EQ(1, vec.size, "Expected condition to hold");
 
     int *item = (int *)vec_at(&vec, 0);
-    ASSERT_NOT_NULL(item);
-    ASSERT_EQ(value1, *item);
+    ASSERT_NOT_NULL(item, "Expected pointer to be non-NULL");
+    ASSERT_EQ(value1, *item, "Expected condition to hold");
 
     vec_free(&vec);
 }
@@ -68,7 +68,7 @@ void test_remove_last() {
 void test_remove_middle() {
     Vec vec;
     int ret = vec_init(&vec, 0, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
 
     int value1 = 42;
     int value2 = 84;
@@ -78,16 +78,16 @@ void test_remove_middle() {
     vec_push(&vec, &value3);
 
     ret = vec_remove(&vec, 1);
-    ASSERT_EQ(VEC_SUCCESS, ret);
-    ASSERT_EQ(2, vec.size);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    ASSERT_EQ(2, vec.size, "Expected condition to hold");
 
     int *item1 = (int *)vec_at(&vec, 0);
-    ASSERT_NOT_NULL(item1);
-    ASSERT_EQ(value1, *item1);
+    ASSERT_NOT_NULL(item1, "Expected pointer to be non-NULL");
+    ASSERT_EQ(value1, *item1, "Expected condition to hold");
 
     int *item2 = (int *)vec_at(&vec, 1);
-    ASSERT_NOT_NULL(item2);
-    ASSERT_EQ(value3, *item2);
+    ASSERT_NOT_NULL(item2, "Expected pointer to be non-NULL");
+    ASSERT_EQ(value3, *item2, "Expected condition to hold");
 
     vec_free(&vec);
 }

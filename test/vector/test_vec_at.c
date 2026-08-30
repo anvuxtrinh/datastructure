@@ -6,7 +6,7 @@ static Vec vec;
 
 void setup() {
     int ret = vec_init(&vec, 0, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
 }
 
 void teardown() {
@@ -15,7 +15,7 @@ void teardown() {
 
 void test_vec_at_null() {
     int *item = (int *)vec_at(NULL, 0);
-    ASSERT_NULL(item);
+    ASSERT_NULL(item, "Expected pointer to be NULL");
 }
 
 void test_vec_at_out_of_bounds() {
@@ -23,13 +23,13 @@ void test_vec_at_out_of_bounds() {
     vec_push(&vec, &value);
 
     int *item = (int *)vec_at(&vec, 1);
-    ASSERT_NULL(item);
+    ASSERT_NULL(item, "Expected pointer to be NULL");
 
     item = (int *)vec_at(&vec, 100);
-    ASSERT_NULL(item);
+    ASSERT_NULL(item, "Expected pointer to be NULL");
 
     item = (int *)vec_at(&vec, 0);
-    ASSERT_NOT_NULL(item);
+    ASSERT_NOT_NULL(item, "Expected pointer to be non-NULL");
 }
 
 void test_vec_at_valid() {
@@ -39,12 +39,12 @@ void test_vec_at_valid() {
     vec_push(&vec, &value2);
 
     int *item1 = (int *)vec_at(&vec, 0);
-    ASSERT_NOT_NULL(item1);
-    ASSERT_EQ(value1, *item1);
+    ASSERT_NOT_NULL(item1, "Expected pointer to be non-NULL");
+    ASSERT_EQ(value1, *item1, "Expected condition to hold");
 
     int *item2 = (int *)vec_at(&vec, 1);
-    ASSERT_NOT_NULL(item2);
-    ASSERT_EQ(value2, *item2);
+    ASSERT_NOT_NULL(item2, "Expected pointer to be non-NULL");
+    ASSERT_EQ(value2, *item2, "Expected condition to hold");
 }
 
 void run_vec_at_tests() {

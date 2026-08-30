@@ -10,36 +10,36 @@ static void teardown() {
 
 void test_vec_init_zero_size() {
     int ret = vec_init(&vec, 0, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret);
-    ASSERT_EQ(0, vec.size);
-    ASSERT_EQ(4, vec.cap);
-    ASSERT_EQ(sizeof(int), vec.esize);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    ASSERT_EQ(0, vec.size, "Expected condition to hold");
+    ASSERT_EQ(4, vec.cap, "Expected condition to hold");
+    ASSERT_EQ(sizeof(int), vec.esize, "Expected condition to hold");
 }
 
 void test_vec_init_null() {
     int ret = vec_init(NULL, 0, sizeof(int));
-    ASSERT_EQ(VEC_ERR_NULL, ret);
+    ASSERT_EQ(VEC_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_vec_init_zero_esize() {
     int ret = vec_init(&vec, 0, 0);
-    ASSERT_EQ(VEC_ERR_NULL, ret);
+    ASSERT_EQ(VEC_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_vec_init_with_size() {
     int ret = vec_init(&vec, 10, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret);
-    ASSERT_EQ(10, vec.size);
-    ASSERT_EQ(4, vec.cap);
-    ASSERT_EQ(sizeof(int), vec.esize);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    ASSERT_EQ(10, vec.size, "Expected condition to hold");
+    ASSERT_EQ(4, vec.cap, "Expected condition to hold");
+    ASSERT_EQ(sizeof(int), vec.esize, "Expected condition to hold");
 }
 
 void test_vec_init_with_struct() {
     int ret = vec_init(&vec, 5, sizeof(double));
-    ASSERT_EQ(VEC_SUCCESS, ret);
-    ASSERT_EQ(5, vec.size);
-    ASSERT_EQ(4, vec.cap);
-    ASSERT_EQ(sizeof(double), vec.esize);
+    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    ASSERT_EQ(5, vec.size, "Expected condition to hold");
+    ASSERT_EQ(4, vec.cap, "Expected condition to hold");
+    ASSERT_EQ(sizeof(double), vec.esize, "Expected condition to hold");
 }
 
 void run_vec_init_tests() {

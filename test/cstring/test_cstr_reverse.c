@@ -14,30 +14,30 @@ static void teardown() {
 
 void test_cstr_reverse_null() {
 	int ret = cstr_reverse(NULL);
-	ASSERT_EQ(CSTR_ERR_NULL, ret);
+	ASSERT_EQ(CSTR_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_cstr_reverse_null_data() {
 	int ret = cstr_reverse(&str);
-	ASSERT_EQ(CSTR_ERR_NULL, ret);
+	ASSERT_EQ(CSTR_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_cstr_reverse_valid_even() {
 	int ret = cstr_appendn(&str, "abcd", 4);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
 
 	ret = cstr_reverse(&str);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
-	ASSERT_STR_EQ("dcba", str.data);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
+	ASSERT_STR_EQ("dcba", str.data, "Expected strings to match");
 }
 
 void test_cstr_reverse_valid_odd() {
 	int ret = cstr_appendn(&str, "abcde", 5);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
 
 	ret = cstr_reverse(&str);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
-	ASSERT_STR_EQ("edcba", str.data);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
+	ASSERT_STR_EQ("edcba", str.data, "Expected strings to match");
 }
 
 void run_cstr_reverse_tests() {

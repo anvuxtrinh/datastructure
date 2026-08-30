@@ -14,23 +14,23 @@ static void teardown() {
 
 void test_cstr_clear_null() {
 	int ret = cstr_clear(NULL);
-	ASSERT_EQ(CSTR_ERR_NULL, ret);
+	ASSERT_EQ(CSTR_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_cstr_clear_null_data() {
 	int ret = cstr_clear(&str);
-	ASSERT_EQ(CSTR_ERR_NULL, ret);
+	ASSERT_EQ(CSTR_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_cstr_clear_with_data() {
 	int ret = cstr_appendn(&str, "Hello", 5);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
-	ASSERT_EQ(5, str.len);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
+	ASSERT_EQ(5, str.len, "Expected condition to hold");
 
 	ret = cstr_clear(&str);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
-	ASSERT_EQ(0, str.len);
-	ASSERT_STR_EQ("", str.data);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
+	ASSERT_EQ(0, str.len, "Expected condition to hold");
+	ASSERT_STR_EQ("", str.data, "Expected strings to match");
 }
 
 void run_cstr_clear_tests() {

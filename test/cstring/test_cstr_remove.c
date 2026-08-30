@@ -14,43 +14,43 @@ static void teardown() {
 
 void test_cstr_remove_null() {
 	int ret = cstr_remove(NULL, 0, 1);
-	ASSERT_EQ(CSTR_ERR_NULL, ret);
+	ASSERT_EQ(CSTR_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_cstr_remove_null_data() {
 	int ret = cstr_remove(&str, 0, 1);
-	ASSERT_EQ(CSTR_ERR_NULL, ret);
+	ASSERT_EQ(CSTR_ERR_NULL, ret, "Expected condition to hold");
 }
 
 void test_cstr_remove_out_of_bounds() {
 	int ret = cstr_appendn(&str, "abc", 3);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
 
 	ret = cstr_remove(&str, 3, 1);
-	ASSERT_EQ(CSTR_ERR_OUT_OF_BOUNDS, ret);
+	ASSERT_EQ(CSTR_ERR_OUT_OF_BOUNDS, ret, "Expected condition to hold");
 
 	ret = cstr_remove(&str, 2, 2);
-	ASSERT_EQ(CSTR_ERR_OUT_OF_BOUNDS, ret);
+	ASSERT_EQ(CSTR_ERR_OUT_OF_BOUNDS, ret, "Expected condition to hold");
 }
 
 void test_cstr_remove_valid_middle() {
 	int ret = cstr_appendn(&str, "abcdef", 6);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
 
 	ret = cstr_remove(&str, 2, 2);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
-	ASSERT_EQ(4, str.len);
-	ASSERT_STR_EQ("abef", str.data);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
+	ASSERT_EQ(4, str.len, "Expected condition to hold");
+	ASSERT_STR_EQ("abef", str.data, "Expected strings to match");
 }
 
 void test_cstr_remove_valid_all() {
 	int ret = cstr_appendn(&str, "abc", 3);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
 
 	ret = cstr_remove(&str, 0, 3);
-	ASSERT_EQ(CSTR_SUCCESS, ret);
-	ASSERT_EQ(0, str.len);
-	ASSERT_STR_EQ("", str.data);
+	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
+	ASSERT_EQ(0, str.len, "Expected condition to hold");
+	ASSERT_STR_EQ("", str.data, "Expected strings to match");
 }
 
 void run_cstr_remove_tests() {
