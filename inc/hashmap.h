@@ -1,9 +1,13 @@
 #pragma once
 
+#include <errno.h>
+#include <stddef.h>
+
 typedef void *any_t;
 
 struct hashmap_node {
     any_t key;
+    size_t ksize;
     any_t value;
     struct hashmap_node *next;
 };
@@ -12,8 +16,11 @@ typedef struct hashmap {
     int size;
     int cap;
     struct hashmap_node **buckets;
-} HashMap;
+} hashmap_t;
 
-int hashmap_put(HashMap *self, any_t key, any_t value);
-any_t hashmap_get(HashMap *self, any_t key);
-void hashmap_free(HashMap *self);
+int hashmap_put(hashmap_t *self, any_t key, size_t ksize, any_t value);
+any_t hashmap_get(hashmap_t *self, any_t key, size_t ksize);
+void hashmap_free(hashmap_t *self);
+void hashmap_rehash(hashmap_t *self);
+unsigned int hashmap_hash(any_t key, size_t ksize);
+
