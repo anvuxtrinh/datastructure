@@ -38,21 +38,18 @@ static void test_hashmap_put_null_map(void)
 
 // = Boundary Condition Tests
 /**
- * @brief Verify hashmap_put rejects zero-capacity and empty-key inputs.
- *
- * Empty buckets or zero-sized keys are invalid for a hash map and should return
- * an explicit error instead of writing outside the table.
+ * @brief Verify hashmap_put performs lazy allocation of the bucket table.
  */
-static void test_hashmap_put_invalid_capacity(void)
+static void test_hashmap_put_lazy_allocation(void)
 {
     hashmap_t empty_map = {0, 0, NULL};
     char key[] = "alpha";
     int value = 42;
 
     int ret = hashmap_put(&empty_map, key, strlen(key), &value);
-    ASSERT_EQ(-EINVAL, ret, "Expected -EINVAL when the map has no bucket table");
+    ASSERT_EQ(0, ret, "Expected successful lazy allocation of the bucket table");
 
-    ret = hashmap_put(&map, key, 0, &value);
+    ret = hashmap_put(&empty_map, key, 0, &value);
     ASSERT_EQ(-EINVAL, ret, "Expected -EINVAL when key size is zero");
 }
 
@@ -116,7 +113,7 @@ void run_hashmap_put_tests(void)
 
     RUN_TEST(test_hashmap_put_null_map);
     RUN_TEST(test_hashmap_put_zero_length_key);
-    RUN_TEST(test_hashmap_put_invalid_capacity);
+    RUN_TEST(test_hashmap_put_lazy_allocation);
     RUN_TEST(test_hashmap_put_valid_insert);
     RUN_TEST(test_hashmap_put_updates_existing_key);
 

@@ -88,11 +88,11 @@ void hashmap_free(hashmap_t *self) {
 }
 
 unsigned int hashmap_hash(any_t key, size_t ksize) {
+    unsigned long hash = 5381;
     if(key == NULL || ksize == 0) {
-        return 0;
+        return (unsigned int)hash;
     }
 
-    unsigned long hash = 5381;
     unsigned char *str = (unsigned char *)key;
     int c;
     for (size_t i = 0; i < ksize; i++) {
