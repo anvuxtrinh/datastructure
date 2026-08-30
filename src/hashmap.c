@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include "hashmap.h"
 
+#define MAX_LOAD_FACTOR 0.75
+
 int hashmap_put(hashmap_t *self, any_t key, size_t ksize, any_t value) {
     if(self == NULL || key == NULL || ksize == 0) {
         return -EINVAL;
@@ -14,8 +16,12 @@ int hashmap_put(hashmap_t *self, any_t key, size_t ksize, any_t value) {
         }
     }
 
-    if (self->size >= self->cap * 0.75) {
-        hashmap_rehash(self);
+    float load_factor = (float)self->size / self->cap;
+    if (load_factor >= MAX_LOAD_FACTOR) {
+        int ret = hashmap_rehash(self);
+        if (ret != 0) {
+            return ret;
+        }
     }
 
     unsigned int idx = hashmap_hash(key, ksize) % self->cap;
@@ -96,6 +102,33 @@ unsigned int hashmap_hash(any_t key, size_t ksize) {
     return hash;
 }
 
-void hashmap_rehash(hashmap_t *self) {
-    (void)self;
+int hashmap_rehash(hashmap_t *self) {
+    if(self == NULL || self->cap == 0 || self->buckets == NULL) {
+        return -EINVAL;
+    }
+
+    int old_cap = self->cap;
+    struct hashmap_node **old_buckets = self->buckets;
+
+    self->cap *= 2;
+    self->buckets = calloc(self->cap, sizeof(struct hashmap_node *));
+    if (self->buckets == NULL) {
+        self->cap = old_cap;
+        self->buckets = old_buckets;
+        return -ENOMEM;
+    }
+
+    for(int i = 0; i < old_cap; ++i){
+        struct hashmap_node *node = old_buckets[i];
+        while(node){
+            unsigned int idx = hashmap_hash(node->key, node->ksize) % self->cap;
+            struct hashmap_node *next_node = node->next;
+            node->next = self->buckets[idx];
+            self->buckets[idx] = node;
+            node = next_node;
+        }
+    }
+
+    free(old_buckets);
+    return 0;
 }

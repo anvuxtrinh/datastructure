@@ -21,6 +21,6 @@ typedef struct hashmap {
 int hashmap_put(hashmap_t *self, any_t key, size_t ksize, any_t value);
 any_t hashmap_get(hashmap_t *self, any_t key, size_t ksize);
 void hashmap_free(hashmap_t *self);
-void hashmap_rehash(hashmap_t *self);
+int hashmap_rehash(hashmap_t *self);
 unsigned int hashmap_hash(any_t key, size_t ksize);
 
