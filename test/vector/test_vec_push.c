@@ -1,12 +1,13 @@
 #include <stdio.h>
+#include <errno.h>
 #include "framework/framework.h"
 #include "../../inc/vec.h"
 
-static Vec vec;
+static vec_t vec;
 
 static void setup() {
-    int ret = vec_init(&vec, 0, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    int ret = vec_init(&vec, sizeof(int), NULL);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
 }
 
 static void teardown() {
@@ -16,21 +17,21 @@ static void teardown() {
 static void test_vec_push_null() {
     int item = 42;
     int ret = vec_push(NULL, &item);
-    ASSERT_EQ(VEC_ERR_NULL, ret, "Expected condition to hold");
+    ASSERT_EQ(EINVAL, ret, "Expected condition to hold");
 
     ret = vec_push(&vec, NULL);
-    ASSERT_EQ(VEC_ERR_NULL, ret, "Expected condition to hold");
+    ASSERT_EQ(EINVAL, ret, "Expected condition to hold");
 }
 
 static void test_vec_push_null_data() {
     int ret = vec_push(&vec, NULL);
-    ASSERT_EQ(VEC_ERR_NULL, ret, "Expected condition to hold");
+    ASSERT_EQ(EINVAL, ret, "Expected condition to hold");
 }
 
 static void test_vec_push_valid() {
     int item = 42;
     int ret = vec_push(&vec, &item);
-    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    ASSERT_EQ(0, ret, "Expected condition to hold");
     ASSERT_EQ(1, vec.size, "Expected condition to hold");
 
     int *retrieved_item = (int *)vec_at(&vec, 0);
@@ -46,12 +47,12 @@ static void test_vec_push_struct() {
 
     struct Point p = { .x = 10, .y = 20 };
 
-    Vec vec_struct;
-    int ret = vec_init(&vec_struct, 0, sizeof(struct Point));
-    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    vec_t vec_struct;
+    int ret = vec_init(&vec_struct, sizeof(struct Point), NULL);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
 
     ret = vec_push(&vec_struct, &p);
-    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    ASSERT_EQ(0, ret, "Expected condition to hold");
     ASSERT_EQ(1, vec_struct.size, "Expected condition to hold");
 
     struct Point *retrieved_point = (struct Point *)vec_at(&vec_struct, 0);
@@ -68,7 +69,7 @@ static void test_vec_push_multiple() {
 
     for(size_t i = 0; i < num_items; i++) {
         int ret = vec_push(&vec, &items[i]);
-        ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+        ASSERT_EQ(0, ret, "Expected condition to hold");
         ASSERT_EQ(i + 1, vec.size, "Expected condition to hold");
     }
 
@@ -81,16 +82,16 @@ static void test_vec_push_multiple() {
 
 static void test_vec_push_resize() {
     size_t initial_capacity = vec.cap;
-    size_t num_items = initial_capacity + 2; // Push more items than initial capacity
+    size_t num_items = 6;
 
     for(size_t i = 0; i < num_items; i++) {
         int item = (int)i;
         int ret = vec_push(&vec, &item);
-        ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+        ASSERT_EQ(0, ret, "Expected condition to hold");
         ASSERT_EQ(i + 1, vec.size, "Expected condition to hold");
     }
 
-    ASSERT_TRUE(vec.cap > initial_capacity, "Expected condition to be true"); // Ensure capacity has increased
+    ASSERT_TRUE(vec.cap > initial_capacity, "Expected condition to be true");
 
     for(size_t i = 0; i < num_items; i++) {
         int *retrieved_item = (int *)vec_at(&vec, i);

@@ -1,12 +1,13 @@
 #include <stdio.h>
+#include <errno.h>
 #include "framework/framework.h"
 #include "../../inc/vec.h"
 
-static Vec vec;
+static vec_t vec;
 
 void setup() {
-    int ret = vec_init(&vec, 0, sizeof(int));
-    ASSERT_EQ(VEC_SUCCESS, ret, "Expected condition to hold");
+    int ret = vec_init(&vec, sizeof(int), NULL);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
 }
 
 void teardown() {
