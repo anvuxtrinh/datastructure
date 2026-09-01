@@ -7,6 +7,7 @@ extern void run_vec_push_tests(void);
 extern void run_vec_clear_tests(void);
 extern void run_vec_at_tests(void);
 extern void run_vec_remove_tests(void);
+extern void run_vec_shrink_to_fit_tests(void);
 extern void run_hashmap_put_tests(void);
 extern void run_hashmap_get_tests(void);
 extern void run_hashmap_rehash_tests(void);
@@ -43,6 +44,9 @@ int main(void)
 
     printf("\n" COLOR_YELLOW "---> Running Vec Remove Tests..." COLOR_RESET "\n");
     run_vec_remove_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Vec Shrink To Fit Tests..." COLOR_RESET "\n");
+    run_vec_shrink_to_fit_tests();
 
     printf("\n" COLOR_YELLOW "---> Running Hashmap Put Tests..." COLOR_RESET "\n");
     run_hashmap_put_tests();

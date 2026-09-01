@@ -18,4 +18,4 @@ void* vec_at(vec_t *self, size_t index);
 int vec_remove(vec_t *self, size_t index);
 int vec_clear(vec_t *self);
 int vec_free(vec_t *self);
-void vec_set_free_cb(vec_t *self, vec_free_cb_t free_cb);
+int vec_shrink_to_fit(vec_t *self);

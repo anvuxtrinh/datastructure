@@ -7,9 +7,14 @@
 
 #define VECTOR_INITIAL_CAPACITY 4
 #define VECTOR_GROWTH_FACTOR 2
+#define VECTOR_SHRINK_THRESHOLD 4
 
 static inline bool should_grow(vec_t *self) {
     return self->size >= self->cap;
+}
+
+static inline bool should_shrink(vec_t *self) {
+    return self->cap > VECTOR_INITIAL_CAPACITY && self->size <= self->cap / VECTOR_SHRINK_THRESHOLD;
 }
 
 static inline void* get_element_ptr(vec_t *self, size_t index) {
@@ -70,6 +75,15 @@ int vec_remove(vec_t *self, size_t index) {
     }
 
     self->size--;
+    
+    if(should_shrink(self)) {
+        self->cap /= VECTOR_GROWTH_FACTOR;
+        void *new_data = realloc(self->data, self->cap * self->esize);
+        if(new_data != NULL) {
+            self->data = new_data;
+        }
+    }
+
     return 0;
 }
 
@@ -96,5 +110,24 @@ int vec_free(vec_t *self) {
     }
     self->size = 0;
     self->cap = 0;
+    return 0;
+}
+
+int vec_shrink_to_fit(vec_t *self) {
+    if(self == NULL) { return EINVAL; }
+
+    if(self->size == 0) {
+        free(self->data);
+        self->data = NULL;
+        self->cap = 0;
+        return 0;
+    }
+
+    size_t new_cap = self->size;
+    void *new_data = realloc(self->data, new_cap * self->esize);
+    if(new_data == NULL) { return ENOMEM; }
+
+    self->data = new_data;
+    self->cap = new_cap;
     return 0;
 }
