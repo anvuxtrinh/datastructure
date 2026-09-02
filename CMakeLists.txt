@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(MyVectorProject C)
+project(dst C)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -31,9 +31,12 @@ add_executable(run_tests
     test/vector/test_vec_remove.c
     test/vector/test_vec_shrink_to_fit.c
 
+    test/hashmap/test_hashmap_init.c
     test/hashmap/test_hashmap_put.c
     test/hashmap/test_hashmap_get.c
     test/hashmap/test_hashmap_rehash.c
+    test/hashmap/test_hashmap_remove.c
+    test/hashmap/test_hashmap_contains.c
     test/hashmap/test_hashmap_free.c
     test/hashmap/test_hashmap_hash.c
     

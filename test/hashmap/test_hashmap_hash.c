@@ -8,8 +8,6 @@ unsigned int hashmap_hash(any_t key, size_t ksize);
 
 // = Test Fixtures
 
-// = Null Input Tests
-
 // = Boundary Condition Tests
 /**
  * @brief Verify hash generation for a zero-length key is stable and deterministic.
