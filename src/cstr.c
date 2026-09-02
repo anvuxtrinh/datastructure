@@ -18,10 +18,6 @@ static inline bool should_shrink(cstr_t *self) {
     return self->cap > CSTR_INITIAL_CAPACITY && self->len < self->cap / CSTR_SHRINK_THRESHOLD;
 }
 
-static inline char* get_element_ptr(cstr_t *self, size_t index) {
-    return (char *)self->data + index;
-}
-
 static int cstr_grow_capacity(cstr_t *self, size_t additional_len) {
     size_t new_cap = self->cap == 0 ? CSTR_INITIAL_CAPACITY : self->cap;
     while ((self->len + additional_len + 1) > new_cap) {
@@ -75,8 +71,7 @@ int cstr_pop(cstr_t *self) {
     self->data[self->len] = '\0';
 
     if(should_shrink(self)) {
-        int ret = cstr_shrink_capacity(self);
-        if(ret != 0) { return ret; }
+        (void) cstr_shrink_capacity(self);
     }
 
     return 0;
@@ -144,17 +139,18 @@ int cstr_remove(cstr_t *self, size_t start, size_t len) {
     self->data[self->len] = '\0';
 
     if(should_shrink(self)) {
-        int ret = cstr_shrink_capacity(self);
-        if(ret != 0) { return ret; }
+        (void) cstr_shrink_capacity(self);
     }
 
     return 0;
 }
 
 int cstr_clear(cstr_t *self) {
-    if(self == NULL || self->data == NULL) { return EINVAL; }
+    if(self == NULL) { return EINVAL; }
+    if(self->data != NULL) {
+        self->data[0] = '\0';
+    }
     self->len = 0;
-    self->data[0] = '\0';
     return 0;
 }
 
@@ -170,11 +166,13 @@ int cstr_free(cstr_t *self) {
 }
 
 int cstr_shrink_to_fit(cstr_t *self) {
-    if(self == NULL || self->data == NULL) { return EINVAL; }
+    if(self == NULL) { return EINVAL; }
 
     if(self->len == 0) {
-        free(self->data);
-        self->data = NULL;
+        if(self->data != NULL) {
+            free(self->data);
+            self->data = NULL;
+        }
         self->cap = 0;
         return 0;
     }

@@ -20,7 +20,7 @@ void test_cstr_clear_null() {
 
 void test_cstr_clear_null_data() {
 	int ret = cstr_clear(&str);
-	ASSERT_EQ(EINVAL, ret, "Expected condition to hold");
+	ASSERT_EQ(0, ret, "Expected condition to hold");
 }
 
 void test_cstr_clear_with_data() {

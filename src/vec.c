@@ -88,17 +88,16 @@ int vec_remove(vec_t *self, size_t index) {
     self->size--;
     
     if(should_shrink(self)) {
-        int ret = vec_shrink_capacity(self);
-        if(ret != 0) { return ret; }
+        (void) vec_shrink_capacity(self);
     }
 
     return 0;
 }
 
 int vec_clear(vec_t *self) {
-    if(self == NULL || self->data == NULL) { return EINVAL; }
+    if(self == NULL) { return EINVAL; }
 
-    if(self->free_cb != NULL) {
+    if(self->data != NULL && self->free_cb != NULL) {
         for(size_t i = 0; i < self->size; i++) {
             self->free_cb(get_element_ptr(self, i));
         }
@@ -122,11 +121,13 @@ int vec_free(vec_t *self) {
 }
 
 int vec_shrink_to_fit(vec_t *self) {
-    if(self == NULL || self->data == NULL) { return EINVAL; }
+    if(self == NULL) { return EINVAL; }
 
     if(self->size == 0) {
-        free(self->data);
-        self->data = NULL;
+        if(self->data != NULL) {
+            free(self->data);
+            self->data = NULL;
+        }
         self->cap = 0;
         return 0;
     }

@@ -20,7 +20,7 @@ void test_cstr_shrink_to_fit_null() {
 
 void test_cstr_shrink_to_fit_null_data() {
     int ret = cstr_shrink_to_fit(&str);
-    ASSERT_EQ(EINVAL, ret, "Expected condition to hold");
+    ASSERT_EQ(0, ret, "Expected condition to hold");
 }
 
 void test_cstr_shrink_to_fit_empty() {
