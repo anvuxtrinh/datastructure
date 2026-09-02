@@ -1,11 +1,12 @@
 #include <stdio.h>
+#include <errno.h>
 #include "framework/framework.h"
 #include "../../inc/cstr.h"
 
-static Cstr str;
+static cstr_t str;
 
 static void setup() {
-	str = (Cstr){0};
+	str = (cstr_t){0};
 }
 
 static void teardown() {
@@ -19,7 +20,7 @@ void test_cstr_at_null() {
 
 void test_cstr_at_out_of_bounds() {
 	int ret = cstr_appendn(&str, "Hi", 2);
-	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
+	ASSERT_EQ(0, ret, "Expected condition to hold");
 
 	char ch = cstr_at(&str, 2);
 	ASSERT_EQ('\0', ch, "Expected condition to hold");
@@ -30,7 +31,7 @@ void test_cstr_at_out_of_bounds() {
 
 void test_cstr_at_valid() {
 	int ret = cstr_appendn(&str, "World", 5);
-	ASSERT_EQ(CSTR_SUCCESS, ret, "Expected condition to hold");
+	ASSERT_EQ(0, ret, "Expected condition to hold");
 
 	char ch0 = cstr_at(&str, 0);
 	char ch4 = cstr_at(&str, 4);

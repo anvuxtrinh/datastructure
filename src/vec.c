@@ -7,18 +7,37 @@
 
 #define VECTOR_INITIAL_CAPACITY 4
 #define VECTOR_GROWTH_FACTOR 2
-#define VECTOR_SHRINK_THRESHOLD 4
+#define VECTOR_SHRINK_THRESHOLD 2
 
 static inline bool should_grow(vec_t *self) {
-    return self->size >= self->cap;
+    return self->cap == 0 || self->size >= self->cap;
 }
 
 static inline bool should_shrink(vec_t *self) {
-    return self->cap > VECTOR_INITIAL_CAPACITY && self->size <= self->cap / VECTOR_SHRINK_THRESHOLD;
+    return self->cap > VECTOR_INITIAL_CAPACITY && self->size < self->cap / VECTOR_SHRINK_THRESHOLD;
 }
 
 static inline void* get_element_ptr(vec_t *self, size_t index) {
     return (char *)self->data + (index * self->esize);
+}
+
+static int vec_grow_capacity(vec_t *self) {
+    self->cap = self->cap == 0 ? VECTOR_INITIAL_CAPACITY : self->cap * VECTOR_GROWTH_FACTOR;
+    void *new_data = realloc(self->data, self->cap * self->esize);
+    if(new_data == NULL) { return ENOMEM; }
+    self->data = new_data;
+    return 0;
+}
+
+static int vec_shrink_capacity(vec_t *self) {
+    size_t new_cap = self->cap / VECTOR_GROWTH_FACTOR;
+    new_cap = new_cap < VECTOR_INITIAL_CAPACITY ? VECTOR_INITIAL_CAPACITY : new_cap;
+
+    void *new_data = realloc(self->data, new_cap * self->esize);
+    if(new_data == NULL) { return ENOMEM; }
+    self->data = new_data;
+    self->cap = new_cap;
+    return 0;
 }
 
 int vec_init(vec_t *self, size_t esize, vec_free_cb_t free_cb) {
@@ -35,17 +54,9 @@ int vec_init(vec_t *self, size_t esize, vec_free_cb_t free_cb) {
 int vec_push(vec_t *self, void *item) {
     if(self == NULL || item == NULL) { return EINVAL; }
 
-    if(self->cap == 0) {
-        self->cap = VECTOR_INITIAL_CAPACITY;
-        self->data = malloc(self->cap * self->esize);
-        if(self->data == NULL) { return ENOMEM; }
-    }
-
     if(should_grow(self)) {
-        self->cap *= VECTOR_GROWTH_FACTOR;
-        void *new_data = realloc(self->data, self->cap * self->esize);
-        if(new_data == NULL) { return ENOMEM; }
-        self->data = new_data;
+        int ret = vec_grow_capacity(self);
+        if(ret != 0) { return ret; }
     }
 
     memcpy(get_element_ptr(self, self->size), item, self->esize);
@@ -77,22 +88,19 @@ int vec_remove(vec_t *self, size_t index) {
     self->size--;
     
     if(should_shrink(self)) {
-        self->cap /= VECTOR_GROWTH_FACTOR;
-        void *new_data = realloc(self->data, self->cap * self->esize);
-        if(new_data != NULL) {
-            self->data = new_data;
-        }
+        int ret = vec_shrink_capacity(self);
+        if(ret != 0) { return ret; }
     }
 
     return 0;
 }
 
 int vec_clear(vec_t *self) {
-    if(self == NULL) { return EINVAL; }
+    if(self == NULL || self->data == NULL) { return EINVAL; }
 
     if(self->free_cb != NULL) {
         for(size_t i = 0; i < self->size; i++) {
-            self->free_cb((char *)self->data + (i * self->esize));
+            self->free_cb(get_element_ptr(self, i));
         }
     }
 
@@ -114,7 +122,7 @@ int vec_free(vec_t *self) {
 }
 
 int vec_shrink_to_fit(vec_t *self) {
-    if(self == NULL) { return EINVAL; }
+    if(self == NULL || self->data == NULL) { return EINVAL; }
 
     if(self->size == 0) {
         free(self->data);

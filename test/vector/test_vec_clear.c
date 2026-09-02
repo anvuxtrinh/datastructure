@@ -28,8 +28,7 @@ void test_vec_clear_null() {
 
 void test_vec_clear_empty() {
     int ret = vec_clear(&vec);
-    ASSERT_EQ(0, ret, "Expected condition to hold");
-    ASSERT_EQ(0, vec.size, "Expected condition to hold");
+    ASSERT_EQ(EINVAL, ret, "Expected condition to hold");
 }
 
 void test_vec_clear_with_data() {

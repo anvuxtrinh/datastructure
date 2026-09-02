@@ -22,6 +22,7 @@ extern void run_cstr_pop_tests(void);
 extern void run_cstr_remove_tests(void);
 extern void run_cstr_reverse_tests(void);
 extern void run_cstr_substr_tests(void);
+extern void run_cstr_shrink_to_fit_tests(void);
 
 int main(void)
 {
@@ -89,6 +90,9 @@ int main(void)
 
     printf("\n" COLOR_YELLOW "---> Running CStr Substr Tests..." COLOR_RESET "\n");
     run_cstr_substr_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running CStr Shrink To Fit Tests..." COLOR_RESET "\n");
+    run_cstr_shrink_to_fit_tests();
 
     printf("\n" COLOR_CYAN "All test suites executed successfully." COLOR_RESET "\n");
     

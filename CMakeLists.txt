@@ -29,6 +29,7 @@ add_executable(run_tests
     test/vector/test_vec_clear.c
     test/vector/test_vec_at.c
     test/vector/test_vec_remove.c
+    test/vector/test_vec_shrink_to_fit.c
 
     test/hashmap/test_hashmap_put.c
     test/hashmap/test_hashmap_get.c
@@ -45,6 +46,7 @@ add_executable(run_tests
     test/cstring/test_cstr_remove.c
     test/cstring/test_cstr_reverse.c
     test/cstring/test_cstr_substr.c
+    test/cstring/test_cstr_shrink_to_fit.c
 
     test/test_main.c
 )
