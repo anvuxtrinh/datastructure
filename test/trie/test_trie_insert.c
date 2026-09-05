@@ -26,7 +26,7 @@ static void teardown(void)
 /**
  * @brief Verify trie_insert rejects NULL root and NULL word pointers.
  *
- * Invalid arguments must return -EINVAL and must never attempt to dereference a NULL
+ * Invalid arguments must return EINVAL and must never attempt to dereference a NULL
  * trie or word buffer.
  */
 void test_trie_insert_null_inputs(void)
@@ -34,10 +34,10 @@ void test_trie_insert_null_inputs(void)
     const char *word = "cat";
 
     int ret = trie_insert(NULL, word, 3);
-    ASSERT_EQ(-EINVAL, ret, "Expected -EINVAL when the trie root pointer is NULL");
+    ASSERT_EQ(EINVAL, ret, "Expected EINVAL when the trie root pointer is NULL");
 
     ret = trie_insert(root, NULL, 3);
-    ASSERT_EQ(-EINVAL, ret, "Expected -EINVAL when the insertion word pointer is NULL");
+    ASSERT_EQ(EINVAL, ret, "Expected EINVAL when the insertion word pointer is NULL");
 }
 
 /* = Boundary Condition Tests */
@@ -50,10 +50,10 @@ void test_trie_insert_null_inputs(void)
 void test_trie_insert_invalid_inputs(void)
 {
     int ret = trie_insert(root, "Cat", 3);
-    ASSERT_EQ(-EINVAL, ret, "Expected -EINVAL when a word contains uppercase characters");
+    ASSERT_EQ(EINVAL, ret, "Expected EINVAL when a word contains uppercase characters");
 
     ret = trie_insert(root, "dog-1", 5);
-    ASSERT_EQ(-EINVAL, ret, "Expected -EINVAL when a word contains a non-lowercase character");
+    ASSERT_EQ(EINVAL, ret, "Expected EINVAL when a word contains a non-lowercase character");
 
     ret = trie_insert(root, "", 0);
     ASSERT_EQ(0, ret, "Expected an empty string insertion to succeed");

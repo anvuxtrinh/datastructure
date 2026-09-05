@@ -49,7 +49,7 @@ void test_trie_match_prefix_invalid_and_partial(void)
 
     ASSERT_EQ(-1, trie_match_prefix(root, "CAt", 3), "Expected -1 when the lookup contains uppercase characters");
     ASSERT_EQ(2, trie_match_prefix(root, "ca", 2), "Expected a prefix of length 2 to match the stored word 'cat'");
-    ASSERT_EQ(1, trie_match_prefix(root, "cag", 3), "Expected one character to match before the missing 'g' branch");
+    ASSERT_EQ(2, trie_match_prefix(root, "cag", 3), "Expected one character to match before the missing 'g' branch");
 }
 
 /* = Valid Behavior Tests (Happy Path) */

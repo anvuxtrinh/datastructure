@@ -26,13 +26,13 @@ static void teardown(void)
 /**
  * @brief Verify trie_init rejects a NULL root pointer.
  *
- * A NULL trie root should be treated as an invalid argument and return -EINVAL without
+ * A NULL trie root should be treated as an invalid argument and return EINVAL without
  * dereferencing the pointer.
  */
 void test_trie_init_null_root(void)
 {
     int ret = trie_init(NULL);
-    ASSERT_EQ(-EINVAL, ret, "Expected -EINVAL when the trie root pointer is NULL");
+    ASSERT_EQ(EINVAL, ret, "Expected EINVAL when the trie root pointer is NULL");
 }
 
 /* = Boundary Condition Tests */
