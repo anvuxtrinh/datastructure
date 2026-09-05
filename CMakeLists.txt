@@ -9,6 +9,7 @@ add_library(dst_core STATIC
     src/vec.c
     src/cstr.c
     src/hashmap.c
+    src/trie.c
 )
 
 target_include_directories(dst_core PUBLIC
@@ -50,6 +51,13 @@ add_executable(run_tests
     test/cstring/test_cstr_reverse.c
     test/cstring/test_cstr_substr.c
     test/cstring/test_cstr_shrink_to_fit.c
+
+    test/trie/test_trie_init.c
+    test/trie/test_trie_insert.c
+    test/trie/test_trie_search.c
+    test/trie/test_trie_match_prefix.c
+    test/trie/test_trie_free_child.c
+    test/trie/test_trie_free.c
 
     test/test_main.c
 )

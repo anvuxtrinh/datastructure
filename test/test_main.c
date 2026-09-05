@@ -26,6 +26,12 @@ extern void run_cstr_remove_tests(void);
 extern void run_cstr_reverse_tests(void);
 extern void run_cstr_substr_tests(void);
 extern void run_cstr_shrink_to_fit_tests(void);
+extern void run_trie_init_tests(void);
+extern void run_trie_insert_tests(void);
+extern void run_trie_search_tests(void);
+extern void run_trie_match_prefix_tests(void);
+extern void run_trie_free_child_tests(void);
+extern void run_trie_free_tests(void);
 
 int main(void)
 {
@@ -105,6 +111,24 @@ int main(void)
 
     printf("\n" COLOR_YELLOW "---> Running CStr Shrink To Fit Tests..." COLOR_RESET "\n");
     run_cstr_shrink_to_fit_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Trie Init Tests..." COLOR_RESET "\n");
+    run_trie_init_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Trie Insert Tests..." COLOR_RESET "\n");
+    run_trie_insert_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Trie Search Tests..." COLOR_RESET "\n");
+    run_trie_search_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Trie Match Prefix Tests..." COLOR_RESET "\n");
+    run_trie_match_prefix_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Trie Free Child Tests..." COLOR_RESET "\n");
+    run_trie_free_child_tests();
+
+    printf("\n" COLOR_YELLOW "---> Running Trie Free Tests..." COLOR_RESET "\n");
+    run_trie_free_tests();
 
     printf("\n" COLOR_CYAN "All test suites executed successfully." COLOR_RESET "\n");
     
