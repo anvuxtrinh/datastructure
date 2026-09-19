@@ -5,12 +5,18 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 add_compile_options(-Wall -Wextra)
 
+option(UNIT_TEST "Build with UNIT_TEST compile definition enabled" OFF)
+
 add_library(dst_core STATIC
     src/vec.c
     src/cstr.c
     src/hashmap.c
     src/trie.c
 )
+
+if(UNIT_TEST)
+    target_compile_definitions(dst_core PUBLIC UNIT_TEST)
+endif()
 
 target_include_directories(dst_core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
