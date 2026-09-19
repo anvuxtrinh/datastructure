@@ -11,7 +11,7 @@ void setup() {
 }
 
 void teardown() {
-    vec_free(&vec);
+    vec_deinit(&vec);
 }
 
 void test_vec_at_null() {

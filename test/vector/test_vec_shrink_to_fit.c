@@ -11,7 +11,7 @@ static void setup(void) {
 }
 
 static void teardown(void) {
-    vec_free(&vec);
+    vec_deinit(&vec);
 }
 
 void test_vec_shrink_to_fit_null(void) {
@@ -20,10 +20,14 @@ void test_vec_shrink_to_fit_null(void) {
 }
 
 void test_vec_shrink_to_fit_empty_vector(void) {
-    int value = 7;
-    int ret = vec_push(&vec, &value);
-    ASSERT_EQ(0, ret, "Expected condition to hold");
-    ASSERT_TRUE(vec.cap > 0, "Expected condition to be true");
+    int ret = 0;
+
+    for(int i = 0; i < 5; i++) {
+        ret = vec_push(&vec, &i);
+        ASSERT_EQ(0, ret, "Expected condition to hold");
+    }
+
+    ASSERT_EQ(8, vec.cap, "Expected vector capacity to grow to 8 before clear");
 
     ret = vec_clear(&vec);
     ASSERT_EQ(0, ret, "Expected condition to hold");

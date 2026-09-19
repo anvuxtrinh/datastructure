@@ -1,17 +1,52 @@
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 #include "framework/framework.h"
 #include "../../inc/vec.h"
 
 static vec_t vec;
+static int freed_strings;
+
+static void *clone_string_elem(const void *elem) {
+    const char *src = *(const char * const *)elem;
+    char *copy = malloc(strlen(src) + 1);
+    char **boxed = NULL;
+
+    if(copy == NULL) {
+        return NULL;
+    }
+
+    strcpy(copy, src);
+
+    boxed = malloc(sizeof(*boxed));
+    if(boxed == NULL) {
+        free(copy);
+        return NULL;
+    }
+
+    *boxed = copy;
+    return boxed;
+}
+
+static void free_string_elem(void *elem) {
+    freed_strings++;
+    free(*(char **)elem);
+}
+
+static const vec_ops_t string_ops = {
+    .clone_cb = clone_string_elem,
+    .free_cb = free_string_elem,
+};
 
 static void setup() {
     int ret = vec_init(&vec, sizeof(int), NULL);
     ASSERT_EQ(0, ret, "Expected condition to hold");
+    freed_strings = 0;
 }
 
 static void teardown() {
-    vec_free(&vec);
+    vec_deinit(&vec);
 }
 
 void test_remove_null() {
@@ -42,7 +77,7 @@ void test_remove_first() {
     ASSERT_NOT_NULL(item, "Expected pointer to be non-NULL");
     ASSERT_EQ(value2, *item, "Expected condition to hold");
 
-    vec_free(&vec);
+    vec_deinit(&vec);
 }
 
 void test_remove_last() {
@@ -63,7 +98,7 @@ void test_remove_last() {
     ASSERT_NOT_NULL(item, "Expected pointer to be non-NULL");
     ASSERT_EQ(value1, *item, "Expected condition to hold");
 
-    vec_free(&vec);
+    vec_deinit(&vec);
 }
 
 void test_remove_middle() {
@@ -90,7 +125,40 @@ void test_remove_middle() {
     ASSERT_NOT_NULL(item2, "Expected pointer to be non-NULL");
     ASSERT_EQ(value3, *item2, "Expected condition to hold");
 
-    vec_free(&vec);
+    vec_deinit(&vec);
+}
+
+void test_remove_deep_copied_pointer_calls_free_cb() {
+    vec_t string_vec;
+    char *first = "alpha";
+    char *second = "beta";
+    char *third = "gamma";
+    int ret = vec_init(&string_vec, sizeof(char *), &string_ops);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
+
+    ret = vec_push(&string_vec, &first);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
+    ret = vec_push(&string_vec, &second);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
+    ret = vec_push(&string_vec, &third);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
+
+    ret = vec_remove(&string_vec, 1);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
+    ASSERT_EQ(1, freed_strings, "Expected condition to hold");
+    ASSERT_EQ(2, string_vec.size, "Expected condition to hold");
+
+    char **first_remaining = (char **)vec_at(&string_vec, 0);
+    ASSERT_NOT_NULL(first_remaining, "Expected pointer to be non-NULL");
+    ASSERT_STR_EQ("alpha", *first_remaining, "Expected strings to be equal");
+
+    char **second_remaining = (char **)vec_at(&string_vec, 1);
+    ASSERT_NOT_NULL(second_remaining, "Expected pointer to be non-NULL");
+    ASSERT_STR_EQ("gamma", *second_remaining, "Expected strings to be equal");
+
+    ret = vec_deinit(&string_vec);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
+    ASSERT_EQ(3, freed_strings, "Expected condition to hold");
 }
 
 void run_vec_remove_tests() {
@@ -102,6 +170,7 @@ void run_vec_remove_tests() {
     RUN_TEST(test_remove_first);
     RUN_TEST(test_remove_last);
     RUN_TEST(test_remove_middle);
+    RUN_TEST(test_remove_deep_copied_pointer_calls_free_cb);
 
     SET_SETUP(NULL);
     SET_TEARDOWN(NULL);

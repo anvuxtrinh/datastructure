@@ -6,7 +6,7 @@
 static vec_t vec;
 
 static void teardown() {
-    vec_free(&vec);
+    vec_deinit(&vec);
 }
 
 void test_vec_init_zero_size() {
@@ -43,6 +43,17 @@ void test_vec_init_with_struct() {
     ASSERT_EQ(sizeof(double), vec.esize, "Expected condition to hold");
 }
 
+void test_vec_init_with_ops() {
+    static const vec_ops_t ops = {
+        .clone_cb = NULL,
+        .free_cb = NULL,
+    };
+
+    int ret = vec_init(&vec, sizeof(int), &ops);
+    ASSERT_EQ(0, ret, "Expected condition to hold");
+    ASSERT_TRUE(vec.ops == &ops, "Expected condition to be true");
+}
+
 void run_vec_init_tests() {
     SET_SETUP(NULL);
     SET_TEARDOWN(teardown);
@@ -51,5 +62,6 @@ void run_vec_init_tests() {
     RUN_TEST(test_vec_init_zero_esize);
     RUN_TEST(test_vec_init_with_size);
     RUN_TEST(test_vec_init_with_struct);
+    RUN_TEST(test_vec_init_with_ops);
     SET_TEARDOWN(NULL);
 }
