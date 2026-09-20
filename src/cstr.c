@@ -77,26 +77,26 @@ int cstr_pop(cstr_t *self) {
     return 0;
 }
 
-int cstr_copy(cstr_t *self, const char *str, size_t n) {
-    if(self == NULL || str == NULL || 
+int cstr_copy(cstr_t *dest, const char *src, size_t n) {
+    if(dest == NULL || src == NULL || 
         n > SIZE_MAX - 1) return EINVAL;
 
     if(n == 0) {
-        self->len = 0;
-        if(self->data != NULL) {
-            self->data[0] = '\0';
+        dest->len = 0;
+        if(dest->data != NULL) {
+            dest->data[0] = '\0';
         }
         return 0;
     }
 
-    if(should_grow(self, n)) {
-        int ret = cstr_grow_capacity(self, n);
+    if(should_grow(dest, n)) {
+        int ret = cstr_grow_capacity(dest, n);
         if(ret != 0) { return ret; }
     }
 
-    memcpy(self->data, str, n);
-    self->len = n;
-    self->data[self->len] = '\0';
+    memcpy(dest->data, src, n);
+    dest->len = n;
+    dest->data[dest->len] = '\0';
     return 0;
 }
 
