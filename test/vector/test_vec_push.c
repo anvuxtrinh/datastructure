@@ -42,9 +42,9 @@ static void free_string_elem(void *elem)
     free(*(char **)elem);
 }
 
-static const vec_ops_t string_ops = {
-    .clone_cb = clone_string_elem,
-    .free_cb = free_string_elem,
+static const data_ops_t string_ops = {
+    .clone = clone_string_elem,
+    .free = free_string_elem,
 };
 
 static void *clone_raw_payload_elem(const void *elem)
@@ -66,9 +66,9 @@ static void *clone_raw_payload_elem(const void *elem)
     return copy;
 }
 
-static const vec_ops_t raw_payload_ops = {
-    .clone_cb = clone_raw_payload_elem,
-    .free_cb = NULL,
+static const data_ops_t raw_payload_ops = {
+    .clone = clone_raw_payload_elem,
+    .free = NULL,
 };
 
 static void setup(void)
