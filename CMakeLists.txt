@@ -30,7 +30,7 @@ target_include_directories(test_framework PUBLIC
 )
 
 add_executable(run_tests
-    test/vector/test_vec_free.c
+    test/vector/test_vec_deinit.c
     test/vector/test_vec_init.c
     test/vector/test_vec_push.c
     test/vector/test_vec_clear.c
@@ -47,7 +47,7 @@ add_executable(run_tests
     test/hashmap/test_hashmap_free.c
     test/hashmap/test_hashmap_hash.c
     
-    test/cstring/test_cstr_free.c
+    test/cstring/test_cstr_deinit.c
     test/cstring/test_cstr_appendn.c
     test/cstring/test_cstr_at.c
     test/cstring/test_cstr_clear.c

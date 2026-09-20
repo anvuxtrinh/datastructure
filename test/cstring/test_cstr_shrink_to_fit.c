@@ -10,7 +10,7 @@ static void setup() {
 }
 
 static void teardown() {
-    cstr_free(&str);
+    cstr_deinit(&str);
 }
 
 void test_cstr_shrink_to_fit_null() {

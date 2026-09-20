@@ -47,7 +47,7 @@ static void test_vec_deinit_valid_vector(void)
 
 // = State Transition Tests
 // = Error Code Verification Tests
-void run_vec_free_tests(void)
+void run_vec_deinit_tests(void)
 {
     RUN_TEST(test_vec_deinit_null_vec);
     RUN_TEST(test_vec_deinit_null_data_buffer);

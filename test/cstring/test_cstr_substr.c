@@ -12,8 +12,8 @@ static void setup() {
 }
 
 static void teardown() {
-	cstr_free(&str);
-	cstr_free(&out);
+	cstr_deinit(&str);
+	cstr_deinit(&out);
 }
 
 void test_cstr_substr_null() {

@@ -20,5 +20,5 @@ int cstr_reverse(cstr_t *self);
 int cstr_remove(cstr_t *self, size_t start, size_t len);
 int cstr_split(cstr_t *self, const char *delim, cstr_t **out, size_t *count);
 int cstr_clear(cstr_t *self);
-int cstr_free(cstr_t *self);
+int cstr_deinit(cstr_t *self);
 int cstr_shrink_to_fit(cstr_t *self);

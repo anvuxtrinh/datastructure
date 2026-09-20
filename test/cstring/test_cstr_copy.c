@@ -11,7 +11,7 @@ static void setup() {
 }
 
 static void teardown() {
-	cstr_free(&str);
+	cstr_deinit(&str);
 }
 
 void test_cstr_copy_null() {

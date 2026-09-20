@@ -154,7 +154,7 @@ int cstr_clear(cstr_t *self) {
     return 0;
 }
 
-int cstr_free(cstr_t *self) {
+int cstr_deinit(cstr_t *self) {
     if(self == NULL) { return EINVAL; }
     if(self->data != NULL) {
         free(self->data);
