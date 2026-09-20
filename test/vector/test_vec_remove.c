@@ -37,9 +37,9 @@ static void free_string_elem(void *elem)
     free(*(char **)elem);
 }
 
-static const vec_ops_t string_ops = {
-    .clone_cb = clone_string_elem,
-    .free_cb = free_string_elem,
+static const data_ops_t string_ops = {
+    .clone = clone_string_elem,
+    .free = free_string_elem,
 };
 
 static void setup(void)

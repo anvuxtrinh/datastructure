@@ -109,9 +109,9 @@ static void test_vec_clear_then_push_again(void)
  */
 static void test_vec_clear_calls_free_cb_for_each_element(void)
 {
-    static const vec_ops_t ops = {
-        .clone_cb = NULL,
-        .free_cb = count_free_cb,
+    static const data_ops_t ops = {
+        .clone = NULL,
+        .free = count_free_cb,
     };
 
     vec_deinit(&vec);
@@ -136,9 +136,9 @@ static void test_vec_clear_calls_free_cb_for_each_element(void)
  */
 static void test_vec_deinit_calls_free_cb_via_clear(void)
 {
-    static const vec_ops_t ops = {
-        .clone_cb = NULL,
-        .free_cb = count_free_cb,
+    static const data_ops_t ops = {
+        .clone = NULL,
+        .free = count_free_cb,
     };
 
     vec_deinit(&vec);
@@ -163,9 +163,9 @@ static void test_vec_deinit_calls_free_cb_via_clear(void)
  */
 static void test_vec_clear_frees_ten_heap_strings(void)
 {
-    static const vec_ops_t ops = {
-        .clone_cb = NULL,
-        .free_cb = free_heap_string,
+    static const data_ops_t ops = {
+        .clone = NULL,
+        .free = free_heap_string,
     };
 
     vec_deinit(&vec);
@@ -196,9 +196,9 @@ static void test_vec_clear_frees_ten_heap_strings(void)
  */
 static void test_vec_deinit_frees_heap_strings_without_prior_clear(void)
 {
-    static const vec_ops_t ops = {
-        .clone_cb = NULL,
-        .free_cb = free_heap_string,
+    static const data_ops_t ops = {
+        .clone = NULL,
+        .free = free_heap_string,
     };
 
     vec_deinit(&vec);

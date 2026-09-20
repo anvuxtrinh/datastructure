@@ -74,9 +74,9 @@ static void test_vec_init_with_struct_element_size(void)
  */
 static void test_vec_init_with_ops_table(void)
 {
-    static const vec_ops_t ops = {
-        .clone_cb = NULL,
-        .free_cb = NULL,
+    static const data_ops_t ops = {
+        .clone = NULL,
+        .free = NULL,
     };
 
     int ret = vec_init(&vec, sizeof(int), &ops);

@@ -41,7 +41,7 @@ static int vec_shrink_capacity(vec_t *self) {
     return 0;
 }
 
-int vec_init(vec_t *self, size_t esize, const vec_ops_t *ops) {
+int vec_init(vec_t *self, size_t esize, const data_ops_t *ops) {
     if(self == NULL || esize == 0) { return EINVAL; }
 
     self->data = NULL;
@@ -61,8 +61,8 @@ int vec_push(vec_t *self, const void *item) {
     }
 
     void *dest_ptr = get_element_ptr(self, self->size);
-    if(self->ops != NULL && self->ops->clone_cb != NULL) {
-        void *cloned_elem = self->ops->clone_cb(item);
+    if(self->ops != NULL && self->ops->clone != NULL) {
+        void *cloned_elem = self->ops->clone(item);
         if(cloned_elem == NULL) { return ENOMEM; }
         memcpy(dest_ptr, cloned_elem, self->esize);
         free(cloned_elem);
@@ -87,8 +87,8 @@ int vec_remove(vec_t *self, size_t index) {
 
     void *elem_ptr = get_element_ptr(self, index);
 
-    if(self->ops != NULL && self->ops->free_cb != NULL) {
-        self->ops->free_cb(elem_ptr);
+    if(self->ops != NULL && self->ops->free != NULL) {
+        self->ops->free(elem_ptr);
     }
 
     if(index < self->size - 1) {
@@ -108,10 +108,10 @@ int vec_remove(vec_t *self, size_t index) {
 int vec_clear(vec_t *self) {
     if(self == NULL) { return EINVAL; }
 
-    if(self->data != NULL && self->ops && self->ops->free_cb != NULL) {
+    if(self->data != NULL && self->ops && self->ops->free != NULL) {
         for(size_t i = 0; i < self->size; i++) {
             void *elem_ptr = get_element_ptr(self, i);
-            self->ops->free_cb(elem_ptr);
+            self->ops->free(elem_ptr);
         }
     }
 
